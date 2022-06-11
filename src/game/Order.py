@@ -1,7 +1,6 @@
-from select import select
 import pandas as pd
-import constants as C
-import Deck
+from game import constants as C
+from game import Deck
 
 def setup(orders):
     orders_list = []

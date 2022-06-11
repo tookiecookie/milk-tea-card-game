@@ -1,6 +1,6 @@
-import constants as C
-import Order
-import Deck
+from game import constants as C
+from game import Order
+from game import Deck
 
 
 def setup(players, ingredients):
