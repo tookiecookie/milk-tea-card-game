@@ -69,3 +69,5 @@ players = [player1, player2, player3, player4]
 # players = [player1, player2, player3]
 # players = [player1, player2]
 
+turn_data_path = 'turn_data.csv'
+player_data_path = 'player_data.csv'

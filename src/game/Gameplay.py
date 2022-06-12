@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from game import constants as C
 from . import stats as S
 from game import Deck
@@ -36,23 +37,22 @@ def runGame():
     # Initiate board, players and decks
     initiateGame()
     printBoardState(players, orders_list, ingredients, orders, discard_pile)
-     
+    S.addRowToTurnData(S.gameCount, S.turnCount, ingredients, discard_pile, orders, orders_list)
+
     # Player turns
     while(len(orders) != 10):
         print("TURN: ", S.turnCount)
         S.turnCount += 1
+
         for i in range(len(players)):
             player = players[i]
             Player.turn(player, ingredients, orders, orders_list, discard_pile)
             player['score'] = Player.calculateScore(player)
-            printBoardState(players, orders_list, ingredients, orders, discard_pile)
-        row_data = [S.gameCount, S.turnCount, len(ingredients), len(discard_pile), len(orders), len(orders_list)]
-        row = pd.DataFrame(
-            [row_data],
-            columns=['game','turn','ingredient deck','discard pile','order deck','orders count'] 
-            )
-        print(row)
-        S.turnData.append(row, ignore_index=True)
+            S.addRowToPlayerData(S.gameCount, S.turnCount, player['name'], player['hand'], player['pile'], player['score'])
+            
+        S.addRowToTurnData(S.gameCount, S.turnCount, ingredients, discard_pile, orders, orders_list)
     
+    S.playerData = pd.pivot_table(S.playerData, values=['player_hand','player_orders','player_score'], index=['game','turn'], columns=['player_name'], aggfunc=np.sum)
     printBoardState(players, orders_list, ingredients, orders, discard_pile)
-    print(S.turnData)
+    S.exportData(S.turnData,C.turn_data_path)
+    S.exportData(S.playerData,C.player_data_path)
