@@ -5,25 +5,23 @@ global gameCount
 global shuffleCount
 global turnCount
 global turnData 
-
+global playerData
 
 gameCount = 0
 turnCount = 0
 shuffleCount = 0
 turnData = pd.DataFrame()
+playerData = pd.DataFrame()
 
 def resetStats():
-    global gameCount
     global turnCount
     global shuffleCount
     global turnData
     global playerData
-    gameCount = 0
     turnCount = 0
     shuffleCount = 0
     turnData = pd.DataFrame()
     playerData = pd.DataFrame()
-    # turnData.to_csv(path, mode='a', header=False)
 
 def addRowToPlayerData(gameCount, turn, player_name, player_hand, player_orders, player_score):
     global playerData
@@ -31,7 +29,7 @@ def addRowToPlayerData(gameCount, turn, player_name, player_hand, player_orders,
         [[gameCount, turn, player_name, len(player_hand), len(player_orders), player_score]],
         columns=['game','turn','player_name','player_hand','player_orders','player_score'] 
         )
-    playerData = pd.concat([playerData, row])
+    playerData = pd.concat([playerData, row], ignore_index=True)
 
 def addRowToTurnData(gameCount, turnCount, ingredients, discard_pile, orders, orders_list):
     global turnData
@@ -42,4 +40,8 @@ def addRowToTurnData(gameCount, turnCount, ingredients, discard_pile, orders, or
     turnData = pd.concat([turnData, row], ignore_index=True)
 
 def exportData(df, path):
-    df.to_csv(path)#, mode='a', header=False)
+    df.to_csv(path, mode='a', header=False, index=False)
+
+def resetExports(playerData, turnData):
+    playerData.to_csv(C.player_data_path, header=True)
+    turnData.to_csv(C.turn_data_path, header=True)
