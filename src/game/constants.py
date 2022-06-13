@@ -2,10 +2,11 @@ import pandas as pd
 
 
 opening_hand_size   = 6
-hand_limit = 8
+hand_limit          = 8
 opening_orders_count = 6
 draw_size           = 2
-order_draw_size = 1
+order_draw_size     = 1
+player_count        = 3
 
 ingredients = pd.DataFrame([
     ("milk", 16),
