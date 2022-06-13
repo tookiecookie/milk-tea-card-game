@@ -1,5 +1,5 @@
 import random
-import constants as C
+from game import constants as C
 
 
 def createDeck(deck_params):

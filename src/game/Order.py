@@ -1,7 +1,6 @@
-from select import select
 import pandas as pd
-import constants as C
-import Deck
+from game import constants as C
+from game import Deck
 
 def setup(orders):
     orders_list = []
@@ -22,15 +21,15 @@ def getRecipe(order_name, params):
 # Recipes that contain dup ingredients do not work with this logic.
 # E.g. Taste the Rainbow doesn't pass this check
 def checkCards(recipe, player_hand):
-    checksum = 0
+    # checksum = 0
     for ingredient in recipe:
         if ingredient not in player_hand:
-            checksum += 1
+            return False #checksum += 1
     
-    if checksum == 0:
-        return True
-    else:
-        return False
+    # if checksum == 0:
+    return True
+    # else:
+        # return False
 
 def spendCards(recipe, player_hand, discard_pile):
     for ingredient in recipe:
